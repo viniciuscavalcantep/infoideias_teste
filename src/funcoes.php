@@ -15,9 +15,11 @@ class Funcoes
 
      * */
     public function SeculoAno(int $ano): int {
-        
+        $seculo = (int)(($ano/100)+1);
+        if($ano%100==0)$seculo--;
+        return $seculo;
     }
-
+    
     
 	
 	
@@ -36,8 +38,21 @@ class Funcoes
     Número = 29 resposta = 23
 
      * */
+    
     public function PrimoAnterior(int $numero): int {
-        
+        if($numero<=2)return 1; 
+        $aux=$numero-1;
+        while($aux>1){
+            $divisores = 0;
+            for($count=2; $count<$aux; $count++){
+            if($aux % $count == 0){
+            $divisores++;
+            }
+            }
+            if(!(bool)$divisores)return $aux;
+            $aux--;
+        }
+               
     }
 
 
@@ -66,7 +81,13 @@ class Funcoes
 
      * */
     public function SegundoMaior(array $arr): int {
-        
+        $allArr=array();
+        $a=array();
+        foreach($arr as $a){
+            $allArr=array_merge($allArr,$a);
+        }
+        rsort($allArr);
+        return $allArr[1];
     }
 	
 	
@@ -105,8 +126,32 @@ class Funcoes
     [3, 5, 67, 98, 3] true
 
      * */
-    
-	public function SequenciaCrescente(array $arr): boolean {
-        
+    public function TemDuplicados($array): bool {
+        return count($array) !== count(array_unique($array));
+    }
+    public function estaOrdenado(array $a): bool{
+        if($this->TemDuplicados($a))return False;
+        $input  = array_values($a);
+        $sorted = $input;
+        sort($sorted);
+        if ($input === $sorted) {
+            return True;
+        }else{
+            return False;
+        }
+    }
+	public function SequenciaCrescente(array $arr): bool{
+        $ordenados=array();
+        for($i=0; $i<count($arr); $i++){
+        $arrAux=$arr;
+        $e=$arrAux[$i];
+        unset($arrAux[$i]);
+        $ordenados[]=$this->estaOrdenado($arrAux);
+        }
+        if(in_array(True,$ordenados)){
+            return True;
+         }else{
+            return False;   
+         }
     }
 }
